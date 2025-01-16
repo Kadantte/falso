@@ -1,5 +1,6 @@
 {
-  "root": "packages/falso",
+  "name": "falso",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/falso/src",
   "projectType": "library",
   "targets": {
@@ -7,7 +8,7 @@
       "executor": "./tools/executors/manipulator:manipulator"
     },
     "build": {
-      "executor": "@nrwl/web:rollup",
+      "executor": "@nx/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/falso",
@@ -15,6 +16,7 @@
         "project": "packages/falso/package.json",
         "entryFile": "packages/falso/src/index.ts",
         "format": ["esm", "cjs"],
+        "rollupConfig": "packages/falso/rollup.config.js",
         "assets": [
           {
             "glob": "logo.png",
@@ -26,22 +28,27 @@
             "input": ".",
             "output": "."
           }
-        ]
+        ],
+        "babelUpwardRootMode": true
+      }
+    },
+    "i18n": {
+      "executor": "./tools/executors/build-locales:build-locales",
+      "options": {
+        "localesOutputPath": "dist/packages/falso/i18n",
+        "falsoSourcePath": "packages/falso/src",
+        "localesSourcePath": "lib/i18n"
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/falso/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/falso"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/falso"],
       "options": {
-        "jestConfig": "packages/falso/jest.config.js",
-        "passWithNoTests": true
+        "jestConfig": "packages/falso/jest.config.ts"
       }
     },
     "version": {

@@ -1,9 +1,8 @@
-import { seed } from '../lib/random';
-import { randEmail, NameSeparators } from '../lib/email';
-import { randFirstName } from '../lib/first-name';
-import { randLastName } from '../lib/last-name';
+import { NameSeparators, randEmail } from '../lib/email';
 import * as firstNameFunctions from '../lib/first-name';
+import { randFirstName } from '../lib/first-name';
 import * as lastNameFunctions from '../lib/last-name';
+import { randLastName } from '../lib/last-name';
 
 describe('email', () => {
   let validEmailRegex: RegExp;
@@ -12,27 +11,23 @@ describe('email', () => {
 
   beforeEach(() => {
     validEmailRegex =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     randFirstNameSpy = jest.spyOn(firstNameFunctions, 'randFirstName');
     randLastNameSpy = jest.spyOn(lastNameFunctions, 'randLastName');
-    seed('💻🕸📞');
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
+
   it('should return valid email format', () => {
     const result = randEmail();
 
-    expect(result.match(validEmailRegex)).toBeTruthy();
-  });
-
-  it('should use random seed to generate all parts of email', () => {
-    // This will likely break if new names or email providers are added
-    expect(randEmail()).toEqual('somkiat-kimura624@laposte.biz');
-    expect(randEmail()).toEqual('roy-schmidt@juno.org');
-    expect(randEmail()).toEqual('mpho_zhong@orange.info');
+    expect(result).toMatch(validEmailRegex);
   });
 
   describe('firstName', () => {
@@ -174,13 +169,11 @@ describe('email', () => {
 
     describe('length is 3', () => {
       it('should return an array length of 3, each with a random email', () => {
-        const result = randEmail({ length: 3 });
+        const [email1, email2, email3] = randEmail({ length: 3 });
 
-        expect(result).toEqual([
-          'somkiat-kimura624@laposte.biz',
-          'roy-schmidt@juno.org',
-          'mpho_zhong@orange.info',
-        ]);
+        expect(email1).toMatch(validEmailRegex);
+        expect(email2).toMatch(validEmailRegex);
+        expect(email3).toMatch(validEmailRegex);
       });
     });
   });

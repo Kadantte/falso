@@ -1,22 +1,40 @@
 import { random } from '../random';
+import { isString } from '../utils/validators.utils';
 
 export interface FakeOptions {
   length?: number;
+  locale?: any | string[];
+  maxCharCount?: number;
 }
 
-type Return<T, O extends FakeOptions> = [O] extends [never]
+export type markRequired<Type, Key extends keyof Type> = Type & {
+  [Property in Key]-?: Type[Property];
+};
+
+export type Return<T, O extends FakeOptions> = [O] extends [never]
   ? T
   : O['length'] extends number
   ? T[]
   : T;
 
+type FactoryFunction<T> = (i: number) => T;
+
 export function fake<T, Options extends FakeOptions>(
-  data: T[] | ((i: number) => T),
+  data: Readonly<T[]> | FactoryFunction<T>,
   options?: Options
 ): Return<T, Options> {
-  const dataSource = Array.isArray(data) ? () => randElement(data) : data;
+  let dataSource = data as FactoryFunction<T>;
+  if (Array.isArray(data)) {
+    let resolvedData = data;
+    if (options?.maxCharCount && isString(data[0])) {
+      resolvedData = data.filter(
+        (item) => item.length <= options.maxCharCount!
+      );
+    }
+    dataSource = () => randElement(resolvedData);
+  }
 
-  if (!options?.length) {
+  if (options?.length === undefined) {
     return dataSource(0) as any;
   }
 
@@ -25,7 +43,7 @@ export function fake<T, Options extends FakeOptions>(
   ) as any;
 }
 
-export function randElement<T>(arr: T[]) {
+export function randElement<T>(arr: Readonly<T[]>) {
   return arr[Math.floor(random() * arr.length)];
 }
 
@@ -40,5 +58,8 @@ export function getRandomInRange({
   max = 9999.99,
   fraction = 0,
 }: RandomInRangeOptions = {}) {
+  if (max < min) {
+    throw new Error('Max must be bigger than min');
+  }
   return Number((random() * (max - min) + min).toFixed(fraction));
 }

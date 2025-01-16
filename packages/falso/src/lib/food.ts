@@ -1,25 +1,30 @@
 import { fake, FakeOptions, getRandomInRange, randElement } from './core/core';
 import { data } from './food.json';
+import { objectKeys } from './utils/objectKeys';
+
+export type FoodOrigin =
+  | 'china'
+  | 'italy'
+  | 'india'
+  | 'mexico'
+  | 'japan'
+  | 'france'
+  | 'lebanon'
+  | 'thailand'
+  | 'greece'
+  | 'turkey'
+  | 'spain'
+  | 'venezuela'
+  | 'chile'
+  | 'argentina'
+  | 'colombia'
+  | 'ecuador'
+  | 'peru'
+  | 'el salvador'
+  | 'romania';
 
 export interface FoodOptions extends FakeOptions {
-  origin?:
-    | 'china'
-    | 'italy'
-    | 'india'
-    | 'mexico'
-    | 'japan'
-    | 'france'
-    | 'lebanon'
-    | 'thailand'
-    | 'romania'
-    | 'greece'
-    | 'turkey'
-    | 'spain'
-    | 'venezuela'
-    | 'argentina'
-    | 'colombia'
-    | 'chile'
-    | 'peru';
+  origin?: FoodOrigin;
 }
 
 const totalOrigins = Object.keys(data)?.length;
@@ -45,8 +50,8 @@ const totalOrigins = Object.keys(data)?.length;
 export function randFood<Options extends FoodOptions = never>(
   options?: Options
 ) {
-  const foodData: { [origin: string]: string[] } = data;
-  const origin: string | undefined = options?.origin;
+  const foodData: { [key in FoodOrigin]: string[] } = data;
+  const origin: FoodOrigin | undefined = options?.origin;
 
   if (!totalOrigins) {
     throw 'No foods found';
@@ -64,9 +69,8 @@ export function randFood<Options extends FoodOptions = never>(
     const originIndex = getRandomInRange({
       min: 0,
       max: totalOrigins - 1,
-      fraction: 0,
     });
-    const randomOrigin = Object.keys(foodData)[originIndex];
+    const randomOrigin = objectKeys(foodData)[originIndex];
 
     return randElement(foodData[randomOrigin]);
   };

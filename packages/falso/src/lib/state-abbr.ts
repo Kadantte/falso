@@ -1,5 +1,5 @@
 import { FakeOptions, fake } from './core/core';
-import { data } from './state-abbr.json';
+import { data } from './state-abbr.i18n.json';
 
 /**
  * Generate a random state abbr.

@@ -1,5 +1,5 @@
 import { FakeOptions, fake } from './core/core';
-import { data } from './city.json';
+import { data } from './city.i18n.json';
 
 /**
  * Generate a random city.

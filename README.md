@@ -19,15 +19,38 @@ Create massive amounts of fake data in the browser and NodeJS. Tree Shakeable & 
 
 </p>
 
-✅ &nbsp;191 Functions  
+✅ &nbsp;205 Functions  
 ✅ &nbsp;Tree Shakable  
 ✅ &nbsp;Fully Typed  
+✅ &nbsp;Factory Functions  
 ✅ &nbsp;Entity Functions  
 ✅ &nbsp;Single and Array Result
 
 🤓 Learn about it on the [docs site](https://ngneat.github.io/falso/) <br>
-🔥 Run it on [Stackblitz](https://stackblitz.com/edit/typescript-pjao1u?file=index.ts) <br>
-🎁 Generate data using [Fako](https://fako.microkit.co/)
+
+## Sponsoring ngneat
+
+[Sponsorships](https://github.com/sponsors/ngneat) aid in the continued development and maintenance of ngneat libraries. Consider asking your company to sponsor ngneat as its core to their business and application development.
+
+### Gold Sponsors
+
+Elevate your support by becoming a Gold Sponsor and have your logo prominently featured on our README in the top 5 repositories.
+
+### Silver Sponsors
+
+Boost your backing by becoming a Gold Sponsor and enjoy the spotlight with your logo prominently showcased in the top 3 repositories on our README.
+
+### Bronze Sponsors
+
+<a href="https://houseofangular.io" target="_blank">
+  <img src="https://github.com/ngrx/platform/blob/main/projects/ngrx.io/src/assets/images/sponsors/house-of-angular.png" width="50px" height="50px" alt="House of Angular" />
+</a>
+
+Become a bronze sponsor and get your logo on our README on GitHub.
+
+## StackBlitz
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/edit/typescript-pj5epp?file=index.ts)
 
 ## Installation
 
@@ -44,6 +67,12 @@ import { randEmail, randFullName } from '@ngneat/falso';
 const user = { email: randEmail(), name: randFullName() };
 
 const emails = randEmail({ length: 10 });
+```
+
+You can specify the length of elements you want to generate. Below is an example of generating 10 emails with length equal or smaller than 20 characters.
+
+```ts
+const emails = randEmail({ length: 10, maxCharCount: 20 });
 ```
 
 ### Setting a Randomness Seed
@@ -72,3 +101,13 @@ seed();
 - Use `npm run c` and choose the right answers
 
 <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+## Contributors
+
+Thanks to awesome contributors! ❤️
+
+<a href="https://github.com/ngneat/falso/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ngneat/falso" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
